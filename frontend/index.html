@@ -62,10 +62,11 @@
                     <label for="signup-password">Password</label>
                     <input type="password" id="signup-password" required placeholder="Create a password">
                 </div>
-                <div class="input-group highlight-group">
-                    <label for="signup-gym-id">Gym ID <span class="required">*</span></label>
-                    <input type="text" id="signup-gym-id" required placeholder="Provided by your gym">
-                    <small class="help-text">Required for Biometric & NFC Sync</small>
+                <div class="input-group highlight-group" id="gym-id-display" style="display: none; background: rgba(0, 255, 170, 0.1); border: 1px solid var(--success-color); padding: 15px; border-radius: 8px; text-align: center;">
+                    <strong style="color: var(--success-color); font-size: 16px;">Welcome to SyncFit!</strong>
+                    <p style="margin-top: 10px; font-size: 14px;">Your assigned Gym ID is: <br><span id="generated-gym-id" style="font-weight: bold; font-size: 24px; color: var(--accent-color); letter-spacing: 2px;"></span></p>
+                    <small class="help-text" style="display: block; margin-top: 10px;">Please save this for Biometric & NFC Sync.</small>
+                    <button type="button" id="continue-to-dashboard" class="btn primary-btn" style="margin-top: 15px;">Continue to Dashboard</button>
                 </div>
                 <button type="submit" class="btn primary-btn">Sign Up</button>
             </form>

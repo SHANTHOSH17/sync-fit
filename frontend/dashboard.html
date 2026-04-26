@@ -51,12 +51,15 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
                     <span>NFC Sync</span>
                 </a>
-                <div class="user-profile">
+                <div class="user-profile" style="flex-wrap: wrap;">
                     <div class="avatar"></div>
                     <div class="user-info">
                         <strong>Gym ID: 529A</strong>
                         <span>Active</span>
                     </div>
+                    <a href="#" id="logout-btn" style="color: var(--text-secondary); font-size: 12px; text-decoration: none; display: flex; align-items: center; gap: 5px; margin-left: auto;" title="Log Out">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </a>
                 </div>
             </div>
         </aside>
@@ -94,6 +97,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="equipment-suggestions" style="margin-top: 40px; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 16px; padding: 25px;">
+                    <h3 style="font-size: 16px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 20px;">Equipment & Exercise Suggestions</h3>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px; background: var(--bg-dark); padding: 15px; border-radius: 12px; border: 1px solid rgba(0,220,255,0.1);">
+                            <span style="display: block; color: var(--accent-color); font-size: 12px; font-weight: 800; margin-bottom: 5px;">AVAILABLE NOW</span>
+                            <strong style="font-size: 16px;">Squat Rack 3</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">Suggested: Barbell Squats, Overhead Press</p>
+                            <button class="btn accent-btn small-btn" style="margin-top: 10px; width: 100%;" onclick="window.openExerciseView('Barbell Squat')">NFC Sync Rack</button>
+                        </div>
+                        <div style="flex: 1; min-width: 200px; background: var(--bg-dark); padding: 15px; border-radius: 12px; border: 1px solid rgba(0,220,255,0.1);">
+                            <span style="display: block; color: var(--accent-color); font-size: 12px; font-weight: 800; margin-bottom: 5px;">LOW WAIT TIME</span>
+                            <strong style="font-size: 16px;">Cable Machine</strong>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">Suggested: Tricep Pushdowns, Cable Crossovers</p>
+                            <button class="btn accent-btn small-btn" style="margin-top: 10px; width: 100%;" onclick="window.openExerciseView('Cable Machine')">NFC Sync Machine</button>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- Tracker Tab -->
@@ -106,11 +127,19 @@
                 <div class="tracker-layout">
                     <!-- 5 Options Menu -->
                     <div class="split-options">
+                        <h3 style="font-size: 14px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 10px;">Strength Split</h3>
                         <button class="split-btn active" data-split="push">Day 1: Push (Chest, Shoulders, Triceps)</button>
                         <button class="split-btn" data-split="pull">Day 2: Pull (Back, Biceps)</button>
                         <button class="split-btn" data-split="legs">Day 3: Legs (Quads, Hams, Calves)</button>
                         <button class="split-btn" data-split="upper">Day 4: Upper Body</button>
                         <button class="split-btn" data-split="lower">Day 5: Lower Body & Core</button>
+
+                        <h3 style="font-size: 14px; color: var(--text-secondary); text-transform: uppercase; margin-top: 15px; margin-bottom: 10px;">Cardio Split</h3>
+                        <button class="split-btn" data-split="cardio1">Day 1: HIIT Treadmill</button>
+                        <button class="split-btn" data-split="cardio2">Day 2: Steady State Cycling</button>
+                        <button class="split-btn" data-split="cardio3">Day 3: Rowing Machine Intervals</button>
+                        <button class="split-btn" data-split="cardio4">Day 4: Stairmaster Climb</button>
+                        <button class="split-btn" data-split="cardio5">Day 5: Elliptical Endurance</button>
                     </div>
 
                     <!-- Split Detail View -->
@@ -150,7 +179,33 @@
                             <h3>Core Whey Select</h3>
                             <p>Fast-absorbing isolate. Replenish your stock now.</p>
                             <div class="product-action">
-                                <span class="price">$45.00</span>
+                                <span class="price">₹3,499</span>
+                                <button class="btn accent-btn">One-Tap Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <img src="assets/preworkout.png" alt="Extreme Pre-Workout">
+                        </div>
+                        <div class="product-info">
+                            <h3>Ignite Pre-Workout</h3>
+                            <p>Explosive energy and focus for your toughest sessions.</p>
+                            <div class="product-action">
+                                <span class="price">₹2,499</span>
+                                <button class="btn accent-btn">One-Tap Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <img src="assets/creatine.png" alt="Micronized Creatine">
+                        </div>
+                        <div class="product-info">
+                            <h3>Pure Creatine Monohydrate</h3>
+                            <p>Boost strength and muscle volume daily.</p>
+                            <div class="product-action">
+                                <span class="price">₹1,499</span>
                                 <button class="btn accent-btn">One-Tap Buy</button>
                             </div>
                         </div>
@@ -186,8 +241,8 @@
                     </div>
 
                     <div class="sub-actions">
-                        <button class="btn primary-btn">Renew Early</button>
-                        <button class="btn back-home-btn" style="background: transparent; border: 1px solid var(--panel-border); color: var(--text-secondary); width: 100%; margin-top: 15px;">Manage Payment</button>
+                        <button class="btn primary-btn" id="renew-early-btn">Renew Early</button>
+                        <button class="btn make-payment-btn" id="make-payment-btn" style="background: transparent; border: 1px solid var(--panel-border); color: var(--text-secondary); width: 100%; margin-top: 15px;">Make Payment</button>
                     </div>
                 </div>
 
@@ -212,7 +267,7 @@
                     <!-- Grid container -->
                     <div class="locker-grid-wrapper" style="flex: 1.5; background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 20px; padding: 30px;">
                         <div class="locker-grid-header" style="display: flex; gap: 10px; margin-bottom: 20px;">
-                            <button class="btn small-btn active" id="btn-mens" style="border: 1px solid var(--accent-color); background: rgba(0, 220, 255, 0.1);">Men's (1-75)</button>
+                            <button class="btn small-btn active" id="btn-mens" style="border: 1px solid var(--accent-color); background: rgba(0, 220, 255, 0.1); color: var(--accent-color);">Men's (1-75)</button>
                             <button class="btn small-btn" id="btn-womens" style="border: 1px solid var(--panel-border); background: transparent; color: var(--text-secondary);">Women's (76-100)</button>
                         </div>
                         <div class="locker-grid" id="locker-grid-container">
@@ -234,10 +289,10 @@
                                 <strong id="selected-locker-id" style="font-size: 32px; color: var(--accent-color); text-shadow: 0 0 15px var(--accent-glow);">--</strong>
                             </div>
                             <div class="pricing-info" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px;">
-                                <div class="price-row" style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary);"><span>Daily Rate</span> <span>$5.00</span></div>
-                                <div class="price-row" style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary);"><span>Monthly Rate</span> <span>$25.00</span></div>
+                                <div class="price-row" style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary);"><span>Daily Rate</span> <span>₹100</span></div>
+                                <div class="price-row" style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary);"><span>Monthly Rate</span> <span>₹500</span></div>
                                 <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin: 5px 0;" />
-                                <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-style: italic;">Book your locker online, collect your keys at the reception.</p>
+                                <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-style: italic;">Select an available locker from the grid to proceed with your reservation.</p>
                             </div>
                             <button class="btn primary-btn" id="book-locker-btn" style="opacity: 0.5; pointer-events: none;">Book Locker</button>
                             <div id="locker-success-msg" class="hidden" style="margin-top: 20px; font-size: 13px; color: var(--success-color); border: 1px solid rgba(0,255,170,0.2); padding: 15px; border-radius: 10px; background: rgba(0,255,170,0.05); line-height: 1.5;">
@@ -265,24 +320,21 @@
                 <span class="video-duration">1:00 Form Tutorial</span>
             </div>
 
-            <div class="prev-stats" id="nfc-synced-stats">
+
+            <div class="prev-stats" id="nfc-synced-stats" style="margin-bottom: 20px; text-align: left;">
                 <h3 style="font-size:12px;text-transform:uppercase;color:var(--text-secondary);margin-bottom:12px;">Last Session Performance</h3>
                 <div class="stat-row">
                     <span>Weight</span>
-                    <strong>225 lbs</strong>
+                    <strong id="prev-weight-value">225 lbs</strong>
                 </div>
                 <div class="stat-row">
                     <span>Sets x Reps</span>
-                    <strong>3 x 10</strong>
+                    <strong id="prev-sets-reps">3 x 10</strong>
                 </div>
-                <p class="motivation-text">🔥 You crushed it last week! You are ready to aim for 235 lbs today to maximize your strength gain.</p>
+                <p class="motivation-text" id="prev-motivation">🔥 You crushed it last week! You are ready to aim for 235 lbs today to maximize your strength gain.</p>
             </div>
 
             <div class="tap-to-sync-area" id="trigger-tap-sync">
-                <div class="nfc-graphic small-nfc">
-                    <img src="assets/nfc_scan.png" alt="NFC Scanning Concept">
-                    <div class="scan-line"></div>
-                </div>
                 <h3>Tap machine tag to connect live tracking</h3>
             </div>
             
@@ -294,6 +346,122 @@
             <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <button class="btn primary-btn load-settings-btn" style="margin-top: 0; flex: 1;">Go to Tracker</button>
                 <button class="btn back-home-btn" style="flex: 1; background: transparent; border: 1px solid var(--panel-border); color: var(--text-secondary);">Home Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sync Selection Modal -->
+    <div class="modal-overlay hidden" id="sync-selection-modal">
+        <div class="nfc-modal-content block-panel" style="max-width: 400px;">
+            <button class="close-btn" id="close-sync-selection">&times;</button>
+            <h2 style="font-size: 24px; margin-bottom: 20px;">Choose Sync Method</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">How would you like to log your set for <strong id="selection-machine-name" style="color: var(--accent-color);"></strong>?</p>
+            
+            <div class="nfc-graphic small-nfc" style="margin-bottom: 25px;">
+                <img src="assets/nfc_scan.png" alt="NFC Scanning Concept">
+                <div class="scan-line"></div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn primary-btn" id="btn-select-nfc" style="margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
+                    NFC Tag Sync
+                </button>
+                <button class="btn back-home-btn" id="btn-select-manual" style="margin-top: 0; background: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    Manual Entry
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual Entry Modal -->
+    <div class="modal-overlay hidden" id="manual-entry-modal">
+        <div class="nfc-modal-content block-panel" style="max-width: 400px;">
+            <button class="close-btn" id="close-manual-entry">&times;</button>
+            <h2 style="font-size: 24px; margin-bottom: 20px;">Manual Entry</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Enter your stats for <strong id="manual-machine-name" style="color: var(--accent-color);"></strong></p>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+                <div style="text-align: left;">
+                    <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 5px; display: block;">Weight (lbs)</label>
+                    <input type="number" id="manual-modal-weight" placeholder="e.g. 225" style="background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px; color: white; width: 100%; font-size: 16px;">
+                </div>
+            </div>
+            
+            <div class="hidden" id="manual-success-state" style="margin-bottom: 20px;">
+                <h3 style="color:var(--success-color); font-size: 15px; text-align: center; background: rgba(0,255,170,0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(0,255,170,0.3);">Successfully Logged!</h3>
+            </div>
+
+            <button class="btn accent-btn" id="btn-submit-manual" style="width: 100%;">Submit Log</button>
+            
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn back-home-btn" id="btn-manual-back" style="flex: 1; background: transparent; border: 1px solid var(--panel-border); color: var(--text-secondary);">Back to Tracker</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay hidden" id="payment-modal">
+        <div class="nfc-modal-content block-panel" style="max-width: 400px; text-align: left;">
+            <button class="close-btn" id="close-payment-modal">&times;</button>
+            <h2 style="font-size: 24px; margin-bottom: 20px;">Checkout</h2>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <p style="color: var(--text-secondary); font-size: 13px;">Selected Plan</p>
+                <h3 id="payment-plan-name" style="font-size: 18px; color: var(--accent-color); margin: 5px 0;">Elite Tier</h3>
+                <h2 id="payment-plan-price" style="font-size: 24px; font-weight: 800;">₹4,999/mo</h2>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="Card Number" style="background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px; color: white; width: 100%;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="MM/YY" style="background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px; color: white; width: 50%;">
+                    <input type="text" placeholder="CVC" style="background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px; color: white; width: 50%;">
+                </div>
+            </div>
+            <button class="btn primary-btn" id="confirm-payment-btn" style="margin-top: 0;">Confirm Payment</button>
+        </div>
+    </div>
+
+    <!-- Change Plan Modal -->
+    <div class="modal-overlay hidden" id="plan-modal">
+        <div class="nfc-modal-content block-panel" style="max-width: 500px;">
+            <button class="close-btn" id="close-plan-modal">&times;</button>
+            <h2 style="font-size: 24px; margin-bottom: 10px;">Select Plan</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">Your current plan is <strong id="current-plan-display" style="color: var(--accent-color);">Elite Tier</strong>.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div class="plan-card" style="background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 20px; border-radius: 12px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="font-size: 18px;" class="plan-title">Basic Tier</h3>
+                        <p style="font-size: 12px; color: var(--text-secondary);">Facility Access Only</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="display: block; font-size: 16px; font-weight: 800;">₹1,999/mo</span>
+                        <button class="btn small-btn plan-btn" data-plan="Basic Tier" style="border: 1px solid var(--panel-border); background: transparent; margin-top: 5px;">Downgrade</button>
+                    </div>
+                </div>
+                
+                <div class="plan-card" style="background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 20px; border-radius: 12px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="font-size: 18px;" class="plan-title">Premium Tier</h3>
+                        <p style="font-size: 12px; color: var(--text-secondary);">Access + Classes</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="display: block; font-size: 16px; font-weight: 800;">₹3,499/mo</span>
+                        <button class="btn small-btn plan-btn" data-plan="Premium Tier" style="border: 1px solid var(--panel-border); background: transparent; margin-top: 5px;">Downgrade</button>
+                    </div>
+                </div>
+
+                <div class="plan-card active-plan" style="background: rgba(0,220,255,0.05); border: 1px solid var(--accent-color); padding: 20px; border-radius: 12px; text-align: left; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 15px var(--accent-glow);">
+                    <div>
+                        <h3 style="font-size: 18px; color: var(--accent-color);" class="plan-title">Elite Tier</h3>
+                        <p style="font-size: 12px; color: var(--text-secondary);">All Features + NFC Tracking</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="display: block; font-size: 16px; font-weight: 800; color: var(--accent-color);">₹4,999/mo</span>
+                        <button class="btn small-btn plan-btn current-btn" data-plan="Elite Tier" style="background: var(--text-secondary); color: black; margin-top: 5px; cursor: not-allowed;" disabled>Current</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

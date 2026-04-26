@@ -66,6 +66,22 @@ document.addEventListener('DOMContentLoaded', () => {
         'lower': { title: 'Lower Body & Core', exercises: [
             {name: 'Barbell Squats', rec: '4 Sets x 10 Reps'},
             {name: 'Planks', rec: '3 Sets x 60 Seconds'}
+        ]},
+        'cardio1': { title: 'HIIT Treadmill', exercises: [
+            {name: 'Treadmill Sprints', rec: '10 Sets x 30s Sprint / 30s Walk'},
+            {name: 'Incline Walk', rec: '15 Minutes'}
+        ]},
+        'cardio2': { title: 'Steady State Cycling', exercises: [
+            {name: 'Stationary Bike', rec: '45 Minutes, Moderate Pace'}
+        ]},
+        'cardio3': { title: 'Rowing Machine Intervals', exercises: [
+            {name: 'Rowing Machine', rec: '8 Sets x 500m'}
+        ]},
+        'cardio4': { title: 'Stairmaster Climb', exercises: [
+            {name: 'Stairmaster', rec: '30 Minutes, Level 8-10'}
+        ]},
+        'cardio5': { title: 'Elliptical Endurance', exercises: [
+            {name: 'Elliptical', rec: '40 Minutes, Resistance 12'}
         ]}
     };
 
@@ -103,7 +119,61 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('nfc-success-state').classList.remove('hidden');
     };
 
+    let currentExerciseName = '';
+    const exerciseHistory = {};
+
     window.openExerciseView = function(exerciseName) {
+        currentExerciseName = exerciseName;
+        const selectionModal = document.getElementById('sync-selection-modal');
+        document.getElementById('selection-machine-name').textContent = exerciseName;
+        
+        // Update previous stats based on history
+        const statsEl = document.getElementById('nfc-synced-stats');
+        if (statsEl) {
+            statsEl.classList.remove('hidden');
+            
+            const prevWeightValue = document.getElementById('prev-weight-value');
+            const prevMotivation = document.getElementById('prev-motivation');
+            
+            if (exerciseHistory[exerciseName]) {
+                const lastWeight = exerciseHistory[exerciseName];
+                prevWeightValue.textContent = lastWeight + ' lbs';
+                const targetWeight = parseInt(lastWeight) + 10;
+                prevMotivation.textContent = `🔥 You crushed it last week! You are ready to aim for ${targetWeight} lbs today to maximize your strength gain.`;
+            } else {
+                prevWeightValue.textContent = '225 lbs';
+                prevMotivation.textContent = `🔥 You crushed it last week! You are ready to aim for 235 lbs today to maximize your strength gain.`;
+            }
+        }
+        
+        selectionModal.classList.remove('hidden');
+    };
+
+    // Selection Modal Listeners
+    const closeSyncSelection = document.getElementById('close-sync-selection');
+    if (closeSyncSelection) {
+        closeSyncSelection.addEventListener('click', () => {
+            document.getElementById('sync-selection-modal').classList.add('hidden');
+        });
+    }
+
+    const btnSelectNfc = document.getElementById('btn-select-nfc');
+    if (btnSelectNfc) {
+        btnSelectNfc.addEventListener('click', () => {
+            document.getElementById('sync-selection-modal').classList.add('hidden');
+            openNfcModal(currentExerciseName);
+        });
+    }
+
+    const btnSelectManual = document.getElementById('btn-select-manual');
+    if (btnSelectManual) {
+        btnSelectManual.addEventListener('click', () => {
+            document.getElementById('sync-selection-modal').classList.add('hidden');
+            openManualModal(currentExerciseName);
+        });
+    }
+
+    function openNfcModal(exerciseName) {
         const modal = document.getElementById('nfc-modal');
         document.getElementById('nfc-machine-name').textContent = exerciseName;
         
@@ -112,12 +182,72 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('nfc-success-state').classList.add('hidden');
 
         modal.classList.remove('hidden');
-    };
+    }
+
+    function openManualModal(exerciseName) {
+        const modal = document.getElementById('manual-entry-modal');
+        document.getElementById('manual-machine-name').textContent = exerciseName;
+        document.getElementById('manual-modal-weight').value = '';
+        document.getElementById('manual-success-state').classList.add('hidden');
+        document.getElementById('btn-submit-manual').style.display = 'block';
+        
+        modal.classList.remove('hidden');
+    }
 
     // Attach to the UI button to mock the hardware tap
-    document.getElementById('trigger-tap-sync').addEventListener('click', (e) => {
-        window.simulateNFCTap();
-    });
+    const triggerTapSync = document.getElementById('trigger-tap-sync');
+    if (triggerTapSync) {
+        triggerTapSync.addEventListener('click', (e) => {
+            window.simulateNFCTap();
+        });
+    }
+
+    const btnSubmitManual = document.getElementById('btn-submit-manual');
+    if (btnSubmitManual) {
+        btnSubmitManual.addEventListener('click', () => {
+            const weightInput = document.getElementById('manual-modal-weight');
+            const weight = weightInput.value;
+            if (!weight) {
+                alert('Please enter a weight');
+                return;
+            }
+            
+            // Save to history so it shows up next time
+            exerciseHistory[currentExerciseName] = weight;
+            
+            const successState = document.getElementById('manual-success-state');
+            successState.classList.remove('hidden');
+            successState.querySelector('h3').textContent = `Successfully Logged: ${weight} lbs!`;
+            
+            btnSubmitManual.style.display = 'none';
+        });
+    }
+
+    const closeManualBtn = document.getElementById('close-manual-entry');
+    if (closeManualBtn) {
+        closeManualBtn.addEventListener('click', () => {
+            document.getElementById('manual-entry-modal').classList.add('hidden');
+        });
+    }
+
+    const btnManualBack = document.getElementById('btn-manual-back');
+    if (btnManualBack) {
+        btnManualBack.addEventListener('click', () => {
+            document.getElementById('manual-entry-modal').classList.add('hidden');
+            
+            // Switch to Tracker Tab
+            const allLinks = document.querySelectorAll('.nav-link');
+            const allTabs = document.querySelectorAll('.tab-content');
+            allLinks.forEach(l => l.classList.remove('active'));
+            allTabs.forEach(c => c.classList.remove('active'));
+            
+            const trackerTabLink = document.querySelector('[data-target="tracker-tab"]');
+            if (trackerTabLink) trackerTabLink.classList.add('active');
+            const trackerTab = document.getElementById('tracker-tab');
+            if (trackerTab) trackerTab.classList.add('active');
+        });
+    }
+
 
     const sidebarTrigger = document.getElementById('nfc-trigger-btn');
     if(sidebarTrigger) {
@@ -176,12 +306,113 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Connect overlay click to close modal
-    const modalOverlay = document.getElementById('nfc-modal');
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                modalOverlay.classList.add('hidden');
+    const nfcModalOverlay = document.getElementById('nfc-modal');
+    if (nfcModalOverlay) {
+        nfcModalOverlay.addEventListener('click', (e) => {
+            if (e.target === nfcModalOverlay) {
+                nfcModalOverlay.classList.add('hidden');
             }
+        });
+    }
+
+    const syncSelectionModal = document.getElementById('sync-selection-modal');
+    if (syncSelectionModal) {
+        syncSelectionModal.addEventListener('click', (e) => {
+            if (e.target === syncSelectionModal) syncSelectionModal.classList.add('hidden');
+        });
+    }
+
+    const manualEntryModal = document.getElementById('manual-entry-modal');
+    if (manualEntryModal) {
+        manualEntryModal.addEventListener('click', (e) => {
+            if (e.target === manualEntryModal) manualEntryModal.classList.add('hidden');
+        });
+    }
+
+    // --- Membership Plan Modal ---
+    const renewEarlyBtn = document.getElementById('renew-early-btn');
+    const planModal = document.getElementById('plan-modal');
+    const closePlanModalBtn = document.getElementById('close-plan-modal');
+
+    if (renewEarlyBtn && planModal) {
+        renewEarlyBtn.addEventListener('click', () => {
+            planModal.classList.remove('hidden');
+        });
+    }
+
+    if (closePlanModalBtn && planModal) {
+        closePlanModalBtn.addEventListener('click', () => {
+            planModal.classList.add('hidden');
+        });
+    }
+
+    if (planModal) {
+        planModal.addEventListener('click', (e) => {
+            if (e.target === planModal) {
+                planModal.classList.add('hidden');
+            }
+        });
+    }
+
+    const planBtns = document.querySelectorAll('.plan-btn');
+    const currentPlanDisplay = document.getElementById('current-plan-display');
+    const allPlanCards = document.querySelectorAll('.plan-card');
+    
+    planBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selectedPlan = btn.getAttribute('data-plan');
+            const card = btn.closest('.plan-card');
+
+            // Reset all cards
+            allPlanCards.forEach(c => {
+                c.style.background = 'rgba(255,255,255,0.02)';
+                c.style.border = '1px solid var(--panel-border)';
+                c.style.boxShadow = 'none';
+                c.querySelector('.plan-title').style.color = '';
+                
+                const span = c.querySelector('span');
+                if (span) span.style.color = '';
+                
+                const cb = c.querySelector('.plan-btn');
+                if (cb) {
+                    cb.disabled = false;
+                    cb.style.background = 'transparent';
+                    cb.style.color = 'var(--text-primary)';
+                    cb.style.border = '1px solid var(--panel-border)';
+                    cb.style.cursor = 'pointer';
+                    // Determine if upgrade or downgrade text
+                    const currentPrice = parseInt(card.querySelector('span').textContent.replace(/\D/g, ''));
+                    const thisPrice = parseInt(c.querySelector('span').textContent.replace(/\D/g, ''));
+                    cb.textContent = thisPrice > currentPrice ? 'Upgrade' : 'Downgrade';
+                }
+            });
+
+            // Activate chosen card
+            card.style.background = 'rgba(0,220,255,0.05)';
+            card.style.border = '1px solid var(--accent-color)';
+            card.style.boxShadow = '0 0 15px var(--accent-glow)';
+            card.querySelector('.plan-title').style.color = 'var(--accent-color)';
+            card.querySelector('span').style.color = 'var(--accent-color)';
+            
+            btn.disabled = true;
+            btn.style.background = 'var(--text-secondary)';
+            btn.style.color = 'black';
+            btn.style.border = 'none';
+            btn.style.cursor = 'not-allowed';
+            btn.textContent = 'Current';
+
+            // Update top text
+            if(currentPlanDisplay) currentPlanDisplay.textContent = selectedPlan;
+        });
+    });
+
+    // --- Logout ---
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('syncfit_user');
+            window.location.href = 'index.html';
         });
     }
 
@@ -195,8 +426,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let currentSelectedLocker = null;
 
-    function renderLockers(startIdx, endIdx) {
+    let lockersData = [];
+
+    async function fetchLockers() {
+        try {
+            const res = await fetch('/api/lockers');
+            lockersData = await res.json();
+        } catch (err) {
+            console.error('Error fetching lockers', err);
+        }
+    }
+
+    async function renderLockers(type) {
         if (!gridContainer) return;
+        
+        await fetchLockers(); // Always fetch fresh data
+        
         gridContainer.innerHTML = '';
         currentSelectedLocker = null;
         selectedLockerIdStr.textContent = '--';
@@ -207,16 +452,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (successMsg) successMsg.classList.add('hidden');
 
+        // Filter by type
+        const filtered = lockersData.filter(l => l.type === type);
+
         // Render the locker grid
-        for (let i = startIdx; i <= endIdx; i++) {
+        filtered.forEach(locker => {
             const slot = document.createElement('div');
             slot.classList.add('locker-slot');
-            slot.textContent = i;
+            slot.textContent = locker.id;
             
-            // Randomly assign occupied status (~30% chance for dummy data)
-            const isOccupied = Math.random() < 0.3;
-            
-            if (isOccupied) {
+            if (locker.status === 'occupied') {
                 slot.classList.add('occupied');
             } else {
                 slot.classList.add('available');
@@ -227,10 +472,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Select current
                     slot.classList.add('selected');
-                    currentSelectedLocker = i;
+                    currentSelectedLocker = locker.id;
                     
                     // Update Panel
-                    selectedLockerIdStr.textContent = '#' + i;
+                    selectedLockerIdStr.textContent = '#' + locker.id;
                     bookBtn.disabled = false;
                     bookBtn.style.opacity = '1';
                     bookBtn.style.pointerEvents = 'auto';
@@ -240,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             gridContainer.appendChild(slot);
-        }
+        });
     }
 
     // Toggle Locker views
@@ -249,47 +494,154 @@ document.addEventListener('DOMContentLoaded', () => {
             btnWomens.classList.remove('active');
             btnWomens.style.background = 'transparent';
             btnWomens.style.border = '1px solid var(--panel-border)';
+            btnWomens.style.color = 'var(--text-secondary)';
             btnMens.classList.add('active');
             btnMens.style.background = 'rgba(0, 220, 255, 0.1)';
             btnMens.style.border = '1px solid var(--accent-color)';
-            renderLockers(1, 75);
+            btnMens.style.color = 'var(--accent-color)';
+            renderLockers('mens');
         });
 
         btnWomens.addEventListener('click', () => {
             btnMens.classList.remove('active');
             btnMens.style.background = 'transparent';
             btnMens.style.border = '1px solid var(--panel-border)';
+            btnMens.style.color = 'var(--text-secondary)';
             btnWomens.classList.add('active');
             btnWomens.style.background = 'rgba(0, 220, 255, 0.1)';
             btnWomens.style.border = '1px solid var(--accent-color)';
-            renderLockers(76, 100);
+            btnWomens.style.color = 'var(--accent-color)';
+            renderLockers('womens');
         });
         
         // Initial render
-        renderLockers(1, 75);
+        renderLockers('mens');
     }
 
     if (bookBtn) {
-        bookBtn.addEventListener('click', () => {
+        bookBtn.addEventListener('click', async () => {
             if (currentSelectedLocker) {
                 bookBtn.style.pointerEvents = 'none';
                 bookBtn.style.opacity = '0.5';
                 bookBtn.textContent = 'Processing...';
                 
-                setTimeout(() => {
-                    bookBtn.textContent = 'Book Locker';
-                    bookBtn.style.display = 'none';
-                    if (successMsg) {
-                        successMsg.classList.remove('hidden');
-                    }
+                const userObj = JSON.parse(localStorage.getItem('syncfit_user') || '{}');
+                const userId = userObj.id || 1; // Fallback to 1 if not logged in properly for demo
+                
+                try {
+                    const res = await fetch('/api/lockers/book', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lockerId: currentSelectedLocker, userId })
+                    });
                     
-                    // Mark as occupied in grid visually
-                    const selectedEl = document.querySelector('.locker-slot.selected');
-                    if (selectedEl) {
-                        selectedEl.classList.remove('selected', 'available');
-                        selectedEl.classList.add('occupied');
+                    if (res.ok) {
+                        bookBtn.textContent = 'Book Locker';
+                        bookBtn.style.display = 'none';
+                        if (successMsg) {
+                            successMsg.classList.remove('hidden');
+                        }
+                        
+                        // Mark as occupied in grid visually
+                        const selectedEl = document.querySelector('.locker-slot.selected');
+                        if (selectedEl) {
+                            selectedEl.classList.remove('selected', 'available');
+                            selectedEl.classList.add('occupied');
+                        }
+                    } else {
+                        const errData = await res.json();
+                        alert('Error: ' + errData.error);
+                        bookBtn.textContent = 'Book Locker';
+                        bookBtn.style.pointerEvents = 'auto';
+                        bookBtn.style.opacity = '1';
                     }
-                }, 800);
+                } catch (err) {
+                    console.error(err);
+                    alert('Error communicating with server');
+                    bookBtn.textContent = 'Book Locker';
+                    bookBtn.style.pointerEvents = 'auto';
+                    bookBtn.style.opacity = '1';
+                }
+            }
+        });
+    }
+
+    // --- Complete Session Animation ---
+    const completeBtn = document.querySelector('.complete-btn');
+    if (completeBtn) {
+        completeBtn.addEventListener('click', () => {
+            // Transform button
+            const originalText = completeBtn.textContent;
+            completeBtn.innerHTML = '✓ Session Completed!';
+            completeBtn.style.background = 'var(--success-color)';
+            completeBtn.style.color = '#000';
+            completeBtn.style.transform = 'scale(1.05)';
+            
+            // Simple DOM confetti
+            for (let i = 0; i < 50; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('confetti');
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                conf.style.background = ['#00dcff', '#00ffaa', '#ffaa00', '#ffffff'][Math.floor(Math.random()*4)];
+                document.body.appendChild(conf);
+                
+                // Cleanup
+                setTimeout(() => conf.remove(), 3000);
+            }
+
+            // Reset button after 3s
+            setTimeout(() => {
+                completeBtn.textContent = originalText;
+                completeBtn.style.background = '';
+                completeBtn.style.color = '';
+                completeBtn.style.transform = '';
+            }, 3000);
+        });
+    }
+
+    // --- Payment Modal Logic ---
+    const makePaymentBtn = document.getElementById('make-payment-btn');
+    const paymentModal = document.getElementById('payment-modal');
+    const closePaymentModalBtn = document.getElementById('close-payment-modal');
+    const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
+    
+    if (makePaymentBtn && paymentModal) {
+        makePaymentBtn.addEventListener('click', () => {
+            const currentPlanEl = document.getElementById('current-plan-display');
+            const currentPlan = currentPlanEl ? currentPlanEl.textContent : 'Elite Tier';
+            
+            let price = '₹79/mo';
+            if (currentPlan === 'Basic Tier') price = '₹29/mo';
+            if (currentPlan === 'Premium Tier') price = '₹49/mo';
+            
+            const planNameEl = document.getElementById('payment-plan-name');
+            const planPriceEl = document.getElementById('payment-plan-price');
+            
+            if (planNameEl) planNameEl.textContent = currentPlan;
+            if (planPriceEl) planPriceEl.textContent = price;
+            
+            paymentModal.classList.remove('hidden');
+        });
+    }
+
+    if (closePaymentModalBtn && paymentModal) {
+        closePaymentModalBtn.addEventListener('click', () => {
+            paymentModal.classList.add('hidden');
+        });
+    }
+
+    if (confirmPaymentBtn && paymentModal) {
+        confirmPaymentBtn.addEventListener('click', () => {
+            alert('Payment Successful!');
+            paymentModal.classList.add('hidden');
+        });
+    }
+    
+    if (paymentModal) {
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.classList.add('hidden');
             }
         });
     }
